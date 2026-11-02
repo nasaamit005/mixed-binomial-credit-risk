@@ -39,7 +39,7 @@ the package provides:
 ## 2. Key results
 
 Baseline: PD = 2%, asset correlation rho = 0.15, Gaussian one-factor model. Full detail and caveats are in
-[`docs/RESULTS.md`](docs/RESULTS.md); every number is reproducible (see section 7).
+[`docs/RESULTS.md`](docs/RESULTS.md); every number is reproducible (see section 8).
 
 | Finding | Evidence |
 |---|---|
@@ -51,7 +51,17 @@ Baseline: PD = 2%, asset correlation rho = 0.15, Gaussian one-factor model. Full
 | Capital (LGD 45%, 99.9% unexpected loss): large-portfolio limit 7.03% of exposure; n = 100 -> 7.91% (+12.5%); n = 1,000 -> 7.12% (+1.3%). | `capital.capital_gap` |
 | Beta-distributed LGD with the same mean (45%) raises tail ES, 12.5% -> 12.8% (n = 200, PD 3%). | `simulation.py` |
 
-## 3. Mathematical framework
+## 3. Figures
+
+Regenerate with `python scripts/make_charts.py` (needs `pip install -e ".[figures]"`).
+
+| | |
+|---|---|
+| ![Exact loss distribution](docs/figures/01_exact_loss_distribution.png) | ![Error heat-map](docs/figures/02_error_heatmap.png) |
+| ![Convergence order](docs/figures/03_convergence_order.png) | ![Tail dependence](docs/figures/04_tail_dependence.png) |
+| ![Capital impact](docs/figures/05_capital_impact.png) | |
+
+## 4. Mathematical framework
 
 **Model.** Obligor *i* defaults when a latent variable falls below a threshold calibrated so that the
 marginal default probability is exactly PD:
@@ -93,7 +103,7 @@ artefact of the same order as the correction. `var_es_continuous` uses the conti
 group) and Beta-distributed stochastic LGD are implemented in `models.py` and `simulation.py`. The t-copula
 also has an exact finite-n law and an infinite-n VaR.
 
-## 4. Validation strategy
+## 5. Validation strategy
 
 Each analytical claim is backed by an automated test (32 tests, fixed seeds, run in CI).
 
@@ -108,7 +118,7 @@ Each analytical claim is backed by an automated test (32 tests, fixed seeds, run
 | Calibration recovers known parameters | MLE and Bayesian recovery on synthetic data | `test_calibration_capital.py` |
 | Seeds make results reproducible | identical output for identical seed | `test_simulation.py` |
 
-## 5. Installation
+## 6. Installation
 
 Requires Python 3.10 or newer.
 
@@ -125,7 +135,7 @@ pytest                             # expect: 32 passed
 
 The distribution is named `mixed-binomial-credit-risk`; the importable package is `mbcr`.
 
-## 6. Usage
+## 7. Usage
 
 **Exact finite-n risk versus the Vasicek limit and the 1/n correction**
 
@@ -173,10 +183,10 @@ print(fit_mle(d_t, n_t))                                 # pd ~ 0.021, rho ~ 0.1
 ```python
 from mbcr.capital import capital_gap, irb_risk_weight
 print(capital_gap(100, 0.02, 0.15, lgd=0.45))            # rel_gap ~ +12.5%
-print(irb_risk_weight(0.01, 0.45))                       # ~0.92 (verify constants, see section 10)
+print(irb_risk_weight(0.01, 0.45))                       # ~0.92 (verify constants, see section 11)
 ```
 
-## 7. Reproducing the results
+## 8. Reproducing the results
 
 | Command | Output | Approx. time |
 |---|---|---|
@@ -188,7 +198,7 @@ print(irb_risk_weight(0.01, 0.45))                       # ~0.92 (verify constan
 All randomness uses the project-wide seed `SEED = 20261101` (`mbcr.models`); exact results use deterministic
 quadrature and involve no random numbers.
 
-## 8. Interactive outputs
+## 9. Interactive outputs
 
 - **[Live results page](https://nasaamit005.github.io/mixed-binomial-credit-risk/)** (GitHub Pages, built from
   `docs/index.html`): loss-density comparison, error heat-map over n and rho, convergence-order plot,
@@ -196,7 +206,7 @@ quadrature and involve no random numbers.
 - **Streamlit dashboard** (`app/streamlit_app.py`): sliders for PD, correlation, confidence level, LGD,
   portfolio size and t-copula degrees of freedom, with the same figures plus live exact-versus-limit metrics.
 
-## 9. Repository structure
+## 10. Repository structure
 
 ```
 mixed-binomial-credit-risk/
@@ -218,7 +228,7 @@ mixed-binomial-credit-risk/
 └── .github/workflows/     # CI: ruff + pytest on Python 3.10, 3.11, 3.12
 ```
 
-## 10. Limitations and scope
+## 11. Limitations and scope
 
 - **Not a new theorem.** The 1/n expansion is the established granularity-adjustment framework (Gordy;
   Martin and Wilde; Gordy and Luetkebohmert for the regulatory version). The contribution here is the closed
@@ -241,7 +251,7 @@ mixed-binomial-credit-risk/
   directly, not the IRB-prescribed rho(PD).
 - **Novelty.** A systematic literature check is still required before claiming novelty in a paper.
 
-## 11. Data and licensing
+## 12. Data and licensing
 
 | Source | Use | Redistribution |
 |---|---|---|
@@ -254,7 +264,7 @@ mixed-binomial-credit-risk/
 Raw data is never committed (`data/raw/` is git-ignored). See [`docs/DATA.md`](docs/DATA.md) for the full
 guide and the Freddie Mac workflow.
 
-## 12. Roadmap
+## 13. Roadmap
 
 - [ ] Literature check on granularity adjustments, to fix the novelty claim precisely
 - [ ] Verify IRB constants against the current BIS text; use the IRB rho(PD) in the capital comparison
@@ -264,7 +274,7 @@ guide and the Freddie Mac workflow.
 - [ ] Systematic (downturn) LGD correlated with the factor
 - [ ] Paper draft in `paper/`
 
-## 13. Background reading
+## 14. Background reading
 
 Bibliographic details are given from memory; please verify them against the original sources before citing.
 
@@ -275,7 +285,7 @@ Bibliographic details are given from memory; please verify them against the orig
 - Rockafellar, R. T. and Uryasev, S. (2002). Conditional value-at-risk for general loss distributions. *Journal of Banking and Finance*, 26(7).
 - Basel Committee on Banking Supervision, *Basel Framework* (internal ratings-based approach to credit risk), bis.org.
 
-## 14. How to cite
+## 15. How to cite
 
 ```bibtex
 @software{singh2026mbcr,
@@ -289,14 +299,14 @@ Bibliographic details are given from memory; please verify them against the orig
 
 A machine-readable [`CITATION.cff`](CITATION.cff) is included, so GitHub offers a "Cite this repository" button.
 
-## 15. Author
+## 16. Author
 
 **Amit Singh**, GitHub: [@nasaamit005](https://github.com/nasaamit005)
 
 Questions, corrections and suggestions are welcome through
 [GitHub Issues](https://github.com/nasaamit005/mixed-binomial-credit-risk/issues).
 
-## 16. License and disclaimer
+## 17. License and disclaimer
 
 Released under the [MIT License](LICENSE). This software is provided for research and educational purposes. It
 is not investment, risk-management or regulatory advice, and results must be independently validated before
