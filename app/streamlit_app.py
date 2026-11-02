@@ -1,4 +1,4 @@
-﻿"""Interactive dashboard:  pip install -e ".[app]" && streamlit run app/streamlit_app.py"""
+"""Interactive dashboard:  pip install -e ".[app]" && streamlit run app/streamlit_app.py"""
 import streamlit as st
 
 from mbcr import viz
@@ -39,4 +39,3 @@ with t4:
 with t5:
     st.plotly_chart(viz.fig_capital(pd_, rho, lgd, alpha=alpha), width="stretch")
     st.warning("IRB constants must be verified against the current BIS text (see src/mbcr/capital.py).")
-

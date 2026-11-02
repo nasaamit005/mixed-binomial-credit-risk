@@ -1,8 +1,10 @@
 cff-version: 1.2.0
-title: "mbcr: Mixed-binomial credit risk toolkit"
+title: "mixed-binomial-credit-risk"
 message: "If you use this software, please cite it."
 type: software
 version: 0.1.0
 license: MIT
+repository-code: "https://github.com/nasaamit005/mixed-binomial-credit-risk"
+url: "https://nasaamit005.github.io/mixed-binomial-credit-risk/"
 authors:
-  - name: "The mbcr authors"
+  - name: "nasaamit005"

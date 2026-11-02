@@ -1,4 +1,4 @@
-﻿"""Interactive Plotly figures. Shared by scripts/make_report.py and app/streamlit_app.py."""
+"""Interactive Plotly figures. Shared by scripts/make_report.py and app/streamlit_app.py."""
 from __future__ import annotations
 
 import numpy as np
@@ -37,7 +37,7 @@ def fig_loss_distribution(pd_, rho, alpha, n_list=(25, 50, 100, 250, 1000), nu=N
                   annotation_text=f"VaR {alpha:.1%} limit")
     fig.update_layout(template=TEMPLATE, title=f"Loss density: finite n vs Vasicek (PD={pd_:.2%}, rho={rho:.2f})",
                       xaxis={"title": "loss fraction", "range": [0, xmax]},
-                      yaxis={"title": "density (log scale)", "type": "log", "range": [-3, None]},
+                      yaxis={"title": "density (log scale)", "type": "log", "range": [-4, 2]},
                       hovermode="x unified", legend={"orientation": "h", "y": -0.2})
     return fig
 
@@ -108,5 +108,3 @@ def fig_es_curve(pd_, rho, alphas=None):
 
 def z_for_alpha(alpha):
     return float(norm.ppf(1 - alpha))
-
-
