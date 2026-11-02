@@ -9,6 +9,7 @@ description = "Mixed-binomial credit risk: finite-sample accuracy of the Vasicek
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
+authors = [{ name = "Amit Singh" }]
 dependencies = ["numpy>=2.0", "scipy>=1.11", "pandas>=2.0", "plotly>=5.18"]
 
 [project.optional-dependencies]
@@ -24,3 +25,7 @@ addopts = "-q"
 
 [tool.ruff]
 line-length = 100
+
+[project.urls]
+Repository = "https://github.com/nasaamit005/mixed-binomial-credit-risk"
+Documentation = "https://nasaamit005.github.io/mixed-binomial-credit-risk/"
