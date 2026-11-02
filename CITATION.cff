@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "mbcr: Mixed-binomial credit risk toolkit"
+message: "If you use this software, please cite it."
+type: software
+version: 0.1.0
+license: MIT
+authors:
+  - name: "The mbcr authors"

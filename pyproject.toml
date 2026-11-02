@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mbcr"
+version = "0.1.0"
+description = "Mixed-binomial credit risk: finite-sample accuracy of the Vasicek large-portfolio approximation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["numpy>=1.26", "scipy>=1.11", "pandas>=2.0", "plotly>=5.18"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.4"]
+app = ["streamlit>=1.66"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
