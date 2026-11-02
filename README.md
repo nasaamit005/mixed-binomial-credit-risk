@@ -1,7 +1,8 @@
-**[Live interactive results](https://nasaamit005.github.io/mixed-binomial-credit-risk-1/)**
+﻿# mixed-binomial-credit-risk
 
-**How accurate is the Vasicek large-portfolio approximation for real, finite portfolios, and can the
-error be corrected analytically?**
+**[Live interactive results](https://nasaamit005.github.io/mixed-binomial-credit-risk/)**
+
+**How accurate is the Vasicek large-portfolio approximation for real, finite portfolios, and can the error be corrected analytically?**
 
 `mbcr` computes the *exact* finite-n loss distribution of the one-factor credit model (a mixed
 binomial), compares it with the infinite-granularity Vasicek limit, validates a closed-form 1/n
@@ -43,3 +44,4 @@ See `docs/DATA.md`. Raw data is never committed. Freddie Mac data may not be red
 ## Honest scope
 The 1/n expansion is the established granularity-adjustment framework (Gordy; Martin-Wilde), not a new
 theorem. IRB constants must be verified against the BIS text. Run a literature check before claiming novelty.
+

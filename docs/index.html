@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monte Carlo Portfolio Risk Simulator</title>
+<style>
+:root{--bg:#f3f6fb;--ink:#17243b;--muted:#61718a;--blue:#2457d6;--teal:#087f8c;--line:#dbe4ef}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(120deg,#132a52,#2457d6 62%,#087f8c);color:white;padding:42px max(22px,calc((100% - 1150px)/2))}
+h1{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:12px 0}header p{max-width:850px;color:#e8efff;font-size:17px}
+nav{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);padding:12px max(16px,calc((100% - 1150px)/2));display:flex;gap:18px;overflow:auto;white-space:nowrap;z-index:3}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}nav a{font-weight:700;font-size:13px;color:#33445e}
+main{max-width:1150px;margin:auto;padding:24px 18px 60px}section{scroll-margin-top:65px;margin:24px 0 36px}
+h2{font-size:25px;margin:0 0 8px}h3{margin:0 0 6px}.lead{color:var(--muted);max-width:900px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card,.link{background:white;border:1px solid var(--line);border-radius:14px;padding:17px;box-shadow:0 8px 24px #20385b0c;min-width:0}
+.link{display:block;color:var(--ink)}.link p{color:var(--muted);font-size:13px}.link:hover{border-color:#88a3e8;text-decoration:none}
+.kpi small{display:block;color:var(--muted);text-transform:uppercase;font-weight:700}.kpi strong{font-size:25px;display:block;margin:5px 0}
+.pill{display:inline-block;background:#e9efff;color:#2148a8;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:800}.teal{background:#e1f7f4;color:#08756d}.orange{background:#fff0dc;color:#97520d}
+.tablebox{overflow:auto;border:1px solid var(--line);border-radius:12px;background:white}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}th{background:#eaf0f8;color:#34445e;text-transform:uppercase;font-size:11px}td.num{text-align:right;font-variant-numeric:tabular-nums}
+.callout{background:#e9f8f6;border-left:4px solid var(--teal);padding:14px 16px;border-radius:8px;margin:14px 0}.warn{background:#fff5e8;border-color:#c46a12}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}code{background:#eef2f8;border-radius:4px;padding:2px 5px;font-size:12px}
+footer{text-align:center;padding:25px;color:var(--muted);border-top:1px solid var(--line);font-size:12px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cards,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.grid,.cards,.steps{grid-template-columns:1fr}header{padding-top:28px}}
+</style></head><body>
+<header><div class="pill">QUANTITATIVE FINANCE · RISK ANALYTICS</div>
+<h1>Monte Carlo Portfolio Risk Simulator</h1>
+<p>Interactive project hub for portfolio scenario simulation, downside-risk measures, GARCH volatility modelling, out-of-sample validation, data tables, methodology and reproducible results.</p>
+<p><a class="pill" href="https://github.com/nasaamit005/monte-carlo-portfolio-risk-simulator" target="_blank" rel="noopener">Open GitHub repository ↗</a></p></header>
+<nav><a href="#overview">Overview</a><a href="#results">Results</a><a href="#charts">Charts</a><a href="#data">Data & tables</a><a href="#all-documents">PDFs & reports</a><a href="#method">Methodology</a><a href="#workflow">What we built</a><a href="#limits">Limitations</a><a href="#reproduce">Run project</a></nav>
+<main>
+<section id="overview"><h2>Project overview</h2><p class="lead">This project simulates possible one-year portfolio outcomes using a multivariate-normal Monte Carlo baseline and compares it with GARCH(1,1) volatility modelling plus joint standardized-residual bootstrap sampling. A separate chronological holdout is used to evaluate volatility forecasts.</p>
+<div class="grid">
+<div class="card kpi"><small>Simulation paths</small><strong>10,000</strong><span>Recorded comparison run</span></div>
+<div class="card kpi"><small>Forecast horizon</small><strong>252 days</strong><span>Approx. one trading year</span></div>
+<div class="card kpi"><small>Initial portfolio</small><strong>$10,000</strong><span>Illustrative starting value</span></div>
+<div class="card kpi"><small>Universe</small><strong>5 + benchmark</strong><span>AAPL, AMZN, GOOGL, MSFT, NVDA; ^GSPC</span></div>
+</div><div class="callout"><b>Important:</b> Educational quantitative analysis, not investment advice. Simulated outputs depend on historical data, model assumptions and configuration; they are not guaranteed forecasts.</div></section>
+<section id="results"><h2>Headline simulation results</h2><p class="lead">One recorded run; values may change with data, code and configuration.</p>
+<div class="tablebox"><table><thead><tr><th>Metric</th><th>Multivariate normal</th><th>GARCH + joint residual bootstrap</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Mean terminal value</td><td class="num">$14,210.08</td><td class="num">$14,571.12</td><td>Average ending portfolio value</td></tr>
+<tr><td>Median terminal value</td><td class="num">$13,628.99</td><td class="num">$13,871.93</td><td>Middle simulated outcome</td></tr>
+<tr><td>5th percentile terminal value</td><td class="num">$8,544.50</td><td class="num">$8,854.19</td><td>Lower-tail ending-value threshold</td></tr>
+<tr><td>95th percentile terminal value</td><td class="num">$21,777.04</td><td class="num">$21,254.57</td><td>Upper-tail ending-value threshold</td></tr>
+<tr><td>Probability of loss</td><td class="num">13.97%</td><td class="num">11.05%</td><td>Simulated fraction ending below starting capital</td></tr>
+<tr><td>Reported 95% VaR</td><td class="num">$1,455.50</td><td class="num">$1,145.81</td><td>Confirm loss/quantile convention in code</td></tr>
+<tr><td>Reported 95% Expected Shortfall</td><td class="num">$2,345.24</td><td class="num">$2,226.71</td><td>Average tail loss under implementation convention</td></tr>
+<tr><td>Reported 99% VaR</td><td class="num">$2,984.64</td><td class="num">$2,924.60</td><td>More extreme loss threshold</td></tr>
+<tr><td>Reported 99% Expected Shortfall</td><td class="num">$3,517.86</td><td class="num">$3,746.47</td><td>Tail severity at higher confidence</td></tr>
+</tbody></table></div><div class="callout warn"><b>Interpretation:</b> The results are mixed: GARCH/bootstrap has higher mean and median, lower reported 95% ES, but higher reported 99% ES. This does not prove model superiority. Check QLIKE validation outputs for the measured out-of-sample forecast comparison.</div></section>
+<section id="charts"><h2>Interactive charts and reports</h2><p class="lead">The links below are repository-relative. They work when the HTML reports are present at these paths and committed to GitHub.</p>
+<div class="cards">
+<a class="link" href="reports/monte_carlo/monte_carlo_dashboard.html"><span class="pill">MAIN DASHBOARD</span><h3>Monte Carlo dashboard</h3><p>Combined interactive dashboard for simulated portfolio risk.</p>Open report ↗</a>
+<a class="link" href="reports/monte_carlo/monte_carlo_analysis_report.html"><h3>Monte Carlo analysis report</h3><p>Objective, results, chart explanations, business value and limitations.</p>Open report ↗</a>
+<a class="link" href="reports/garch_comparison/charts/terminal_value_comparison.html"><span class="pill teal">GARCH</span><h3>Terminal value comparison</h3><p>Compare simulated end-of-horizon portfolio values.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_comparison/charts/risk_measure_comparison.html"><span class="pill teal">RISK</span><h3>VaR and Expected Shortfall</h3><p>Compare reported downside-risk measures.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_comparison/charts/terminal_distribution_comparison.html"><h3>Terminal distributions</h3><p>Inspect simulated ending-value distributions and tails.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_validation/charts/qlike_model_comparison.html"><span class="pill orange">VALIDATION</span><h3>QLIKE model comparison</h3><p>Compare out-of-sample forecast loss; lower QLIKE is better on the same target/sample.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_validation/charts/holdout_volatility_forecasts.html"><h3>Holdout volatility forecasts</h3><p>Inspect forecast behaviour through the holdout period.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_validation/charts/nvda_variance_forecast_vs_realized.html"><h3>NVDA variance vs realized proxy</h3><p>Compare forecast variance with squared returns as a proxy.</p>Open chart ↗</a>
+<a class="link" href="reports/garch_validation/charts/qlike_improvement.html"><h3>QLIKE improvement</h3><p>Inspect score differences under the report's sign convention.</p>Open chart ↗</a>
+</div><p class="lead">Any additional individual Monte Carlo charts may be in <code>reports/monte_carlo/charts/</code>. Add exact links after checking their filenames.</p></section>
+<section id="data"><h2>Data, tables and downloadable outputs</h2><div class="cards">
+<a class="link" href="data/raw/all_tickers_daily.csv"><h3>Raw daily prices</h3><p>Downloaded daily OHLCV data for selected tickers.</p>Open CSV ↗</a>
+<a class="link" href="data/processed/daily_returns.csv"><h3>Daily returns</h3><p>Processed returns used for historical modelling.</p>Open CSV ↗</a>
+<a class="link" href="data/processed/performance_metrics.csv"><h3>Performance metrics</h3><p>Asset-level performance summary, if generated.</p>Open CSV ↗</a>
+<a class="link" href="data/processed/stock_correlation.csv"><h3>Correlation matrix</h3><p>Cross-asset return relationships.</p>Open CSV ↗</a>
+<a class="link" href="reports/garch_validation/qlike_scores.csv"><h3>QLIKE scores</h3><p>Out-of-sample forecast loss by model.</p>Open CSV ↗</a>
+<a class="link" href="reports/garch_validation/holdout_volatility_forecasts.csv"><h3>Holdout forecast table</h3><p>Date-level volatility forecast data.</p>Open CSV ↗</a>
+<a class="link" href="reports/garch_validation/qlike_improvement.csv"><h3>QLIKE improvement table</h3><p>Difference between model scores.</p>Open CSV ↗</a>
+<a class="link" href="reports/garch_comparison/"><h3>GARCH comparison outputs</h3><p>Comparison charts and generated tables.</p>Browse outputs ↗</a>
+<a class="link" href="reports/garch_validation/"><h3>GARCH validation outputs</h3><p>Scores, forecast data, parameters and report.</p>Browse outputs ↗</a>
+</div><div class="callout warn"><b>Publishing note:</b> A link only works if the target file exists and is committed. Check data licensing and repository size before publishing raw data or large simulation CSVs.</div></section>
+<section id="method"><h2>Methodology explained</h2><div class="cards">
+<div class="card"><span class="pill">01 · Data</span><h3>Clean and align</h3><p>Parse dates, sort observations, check invalid/missing prices, calculate returns and align assets by date.</p></div>
+<div class="card"><span class="pill">02 · Historical analysis</span><h3>Estimate risk</h3><p>Estimate mean returns, volatility, covariance and correlation. These are historical sample estimates.</p></div>
+<div class="card"><span class="pill">03 · Monte Carlo</span><h3>Correlated normal returns</h3><p>Use a mean vector and covariance matrix to simulate correlated log returns and compound portfolio wealth.</p></div>
+<div class="card"><span class="pill teal">04 · GARCH(1,1)</span><h3>Conditional volatility</h3><p>Estimate time-varying variance for each asset using the GARCH recursion.</p></div>
+<div class="card"><span class="pill teal">05 · Residual bootstrap</span><h3>Joint resampling</h3><p>Resample aligned standardized-residual vectors by date to retain observed cross-asset residual co-movement.</p></div>
+<div class="card"><span class="pill orange">06 · Validation</span><h3>Chronological holdout</h3><p>Fit on training data, forecast one step ahead over the holdout, then compare QLIKE against historical variance.</p></div>
+</div><div class="card" style="margin-top:14px"><h3>Core equations and symbol meanings</h3>
+<p><b>Simple return:</b> Rₜ = Pₜ / Pₜ₋₁ − 1</p><p><b>Log return:</b> rₜ = ln(Pₜ / Pₜ₋₁)</p><p><b>Portfolio variance:</b> σ²ₚ = wᵀΣw</p><p><b>GARCH(1,1):</b> σ²ₜ = ω + αε²ₜ₋₁ + βσ²ₜ₋₁</p><p><b>Common QLIKE form:</b> L = ln(σ̂²) + y² / σ̂² (normalization/constants may vary; check the implementation).</p>
+<p class="lead">Pₜ = price at time t; Rₜ = simple return; rₜ = log return; w = portfolio weights; Σ = return covariance matrix; σ²ₚ = portfolio variance; σ²ₜ = conditional variance; ω, α, β = GARCH parameters; εₜ = residual; σ̂² = forecast variance; y² = realized-variance proxy, commonly squared return.</p></div></section>
+<section id="workflow"><h2>What we built</h2><div class="steps">
+<div class="card"><h3>Data pipeline</h3><p>Raw prices, cleaning, aligned returns and processed CSV outputs.</p></div><div class="card"><h3>Portfolio analytics</h3><p>Historical performance and risk statistics plus simulated portfolio paths.</p></div><div class="card"><h3>Alternative model</h3><p>GARCH conditional volatility with joint residual bootstrap.</p></div><div class="card"><h3>Forecast validation</h3><p>Train/holdout separation, one-step forecasts and QLIKE comparison.</p></div><div class="card"><h3>Interactive reporting</h3><p>Plotly charts, CSV tables, methodology and analysis reports.</p></div><div class="card"><h3>Automated tests</h3><p>Last recorded run reported 43 passing tests; rerun pytest to verify the current checkout.</p></div>
+</div></section>
+<section id="limits"><h2>Limitations</h2><div class="card"><ul>
+<li>Historical returns, volatility and correlations may change.</li><li>Normality can underrepresent heavy tails and extreme joint market moves.</li>
+<li>GARCH does not capture every market regime or dependence pattern.</li><li>Bootstrap cannot create unobserved crisis scenarios by itself.</li>
+<li>Transaction costs, taxes, slippage and market impact may be excluded.</li><li>QLIKE evaluates variance forecast accuracy against a proxy; it is not a direct profitability test.</li>
+<li>VaR/Expected Shortfall depends on the loss definition and quantile/tail convention in the implementation.</li>
+</ul></div></section>
+<section id="reproduce"><h2>Reproduce locally</h2><div class="card">
+<p><b>Clone:</b> <code>git clone https://github.com/nasaamit005/monte-carlo-portfolio-risk-simulator.git</code></p><p><b>Enter project:</b> <code>cd monte-carlo-portfolio-risk-simulator</code></p>
+<p><b>Create Python 3.12 environment (PowerShell):</b> <code>py -3.12 -m venv .venv</code> then <code>.\.venv\Scripts\Activate.ps1</code></p>
+<p><b>Install:</b> <code>python -m pip install -r requirements.txt</code></p><p><b>Run comparison:</b> <code>python .\src\garch_portfolio_simulation.py</code></p>
+<p><b>Validate forecasts:</b> <code>python .\src\validate_garch_forecasts.py</code></p><p><b>Tests:</b> <code>python -m pytest .\tests -v</code></p>
+</div><div class="callout">To publish the live website, place this file at the repository root as <code>index.html</code>, commit the HTML report files you want to share, then open GitHub repository Settings → Pages and deploy from branch <code>main</code> and folder <code>/(root)</code>. Use the exact live URL shown by GitHub.</div></section>
+
+<section id="all-documents">
+<h2>All PDFs, reports and project files</h2>
+<p class="lead">The files below are included in this website package. Keep the documents, reports and assets folders next to index.html for links to work.</p>
+<div class="cards-list">
+<a class="link-card" href="documents/Monte_Carlo_Portfolio_Risk_Analysis_Report.pdf" target="_blank"><h3>Monte Carlo Portfolio Risk — Analysis Report (PDF)</h3><p>Project analysis, results and interpretation.</p><span class="open">Open PDF ↗</span></a>
+<a class="link-card" href="documents/Monte_Carlo_Portfolio_Risk_Methodology.pdf" target="_blank"><h3>Monte Carlo Portfolio Risk — Methodology (PDF)</h3><p>Methodology and model workflow.</p><span class="open">Open PDF ↗</span></a>
+<a class="link-card" href="documents/Monte_Carlo_Risk_Formulas.pdf" target="_blank"><h3>Monte Carlo Risk Formulas (PDF)</h3><p>Mathematical formula reference.</p><span class="open">Open PDF ↗</span></a>
+<a class="link-card" href="reports/monte_carlo_portfolio_risk_report.html" target="_blank"><h3>HTML Analysis Report</h3><p>Previously generated project report.</p><span class="open">Open HTML report ↗</span></a>
+<a class="link-card" href="https://github.com/nasaamit005/monte-carlo-portfolio-risk-simulator" target="_blank" rel="noopener"><h3>GitHub source code</h3><p>Code, tests and files committed to the repository.</p><span class="open">Open GitHub ↗</span></a>
+</div>
+<div class="callout warning"><strong>Note:</strong> This package includes the PDF and report files available from saved project files. Any additional files that exist only on your computer must be copied into this website folder before publishing.</div>
+</section>
+
+</main><footer>Monte Carlo Portfolio Risk Simulator · Reproducible educational risk analysis · Not investment advice</footer></body></html>
