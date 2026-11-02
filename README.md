@@ -1,4 +1,4 @@
-# mbcr: Mixed-Binomial Credit Risk
+**[Live interactive results](https://nasaamit005.github.io/mixed-binomial-credit-risk-1/)**
 
 **How accurate is the Vasicek large-portfolio approximation for real, finite portfolios, and can the
 error be corrected analytically?**
