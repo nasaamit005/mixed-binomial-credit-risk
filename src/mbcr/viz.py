@@ -50,8 +50,8 @@ def fig_error_heatmap(pd_, alpha, n_list, rho_list, metric="var"):
                                colorscale="Reds", colorbar={"title": "% error"},
                                hovertemplate="n=%{x}<br>rho=%{y}<br>error=%{z:.2f}%<extra></extra>"))
     fig.update_layout(template=TEMPLATE, xaxis_title="portfolio size n", yaxis_title="asset correlation rho",
-                      title=f"Relative {metric.upper()} error of the Vasicek limit (alpha={alpha:.1%}, PD={pd_:.2%})"
-                            " -- the limit UNDERSTATES risk")
+                      title=f"Relative {'VaR' if metric == 'var' else 'ES'} error of the Vasicek limit"
+                            f" (alpha={alpha:.1%}, PD={pd_:.2%})")
     return fig
 
 

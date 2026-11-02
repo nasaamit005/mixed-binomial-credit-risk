@@ -57,6 +57,7 @@ section p{color:var(--muted);margin:.2rem 0 .8rem}
 .kpi span{color:var(--muted);font-size:.9rem}
 .warn{border-left:4px solid var(--accent);background:var(--card);padding:.7rem 1rem;border-radius:8px;color:var(--muted);margin-bottom:1.2rem}
 footer{color:var(--muted);font-size:.9rem}
+@media print{.plot{overflow:visible}section{break-inside:avoid}}
 """
 
 KPIS = [
@@ -84,7 +85,8 @@ def build() -> str:
         + "</div>",
     ]
     for title, text, fig in SECTIONS:
-        fig.update_layout(margin={"l": 60, "r": 20, "t": 60, "b": 60}, paper_bgcolor="white", plot_bgcolor="white")
+        # the section heading and caption already describe each chart, so drop long in-chart titles (they clip on narrow screens)
+        fig.update_layout(title=None, margin={"l": 60, "r": 20, "t": 20, "b": 60}, paper_bgcolor="white", plot_bgcolor="white")
         parts.append(f"<section><h2>{title}</h2><p>{text}</p><div class='plot'>"
                      + fig.to_html(full_html=False, include_plotlyjs=False, config={"responsive": True})
                      + "</div></section>")
